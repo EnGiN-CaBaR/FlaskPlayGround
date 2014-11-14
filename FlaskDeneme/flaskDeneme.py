@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+import json
 
 app = Flask(__name__)
 
@@ -58,6 +59,26 @@ def login():
     # the code below is executed if the request method
     # was GET or the credentials were invalid
     return render_template('login.html', error=error)
+
+@app.route('/jsonExample')
+def jsonExample():
+    exampleDic = {'a' : [1,2,3], 'b' : [5,6,7]}
+    a=json.dumps(exampleDic)
+    return str(a)
+    
+@app.route('/topla', methods=['POST', 'GET'])
+def toplaExample():
+    if request.method == 'POST':
+        app.logger.debug('Entered POST')
+        f1 = int(request.form['FirstNumber'])
+        app.logger.debug('F1', f1)
+        f2 = int(request.form['LastNumber'])
+        app.logger.debug('F2', f2)
+        return render_template('result.html', result=f1+f2)
+    return render_template('topla.html')
+    # the code below is executed if the request method
+    # was GET or the credentials were invalid
+        
 
 
 if __name__ == "__main__":
